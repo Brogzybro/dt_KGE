@@ -1,0 +1,13 @@
+asgiref==3.2.3
+dj-database-url==0.5.0
+Django==2.1.7
+django-bootstrap4==0.0.6
+django-heroku==0.3.1
+django-icons==0.1.0
+dnspython==1.16.0
+psycopg2==2.8.4
+pymongo[tls,srv]==3.11.3
+pytz==2018.4
+sqlparse==0.3.1
+whitenoise==5.0.1
+flask_restful==0.3.8
