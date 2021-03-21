@@ -2,8 +2,13 @@
 import pymongo
 from gridfs import GridFS
 from bson import objectid
+import os
+from dotenv import load_dotenv
 
-myclient = pymongo.MongoClient("")
+
+load_dotenv()
+
+myclient = pymongo.MongoClient(os.environ.get("DATABASE_URI"))
 
 knowledgeGeneratorDB = myclient['KnowledgeGenerator']
 Users = knowledgeGeneratorDB['user']
