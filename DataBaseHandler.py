@@ -3,7 +3,7 @@ import pymongo
 from gridfs import GridFS
 from bson import objectid
 
-myclient = pymongo.MongoClient("mongodb+srv://bragehs:mongodbpass@cluster0.coubz.mongodb.net/project0?retryWrites=true&w=majority")
+myclient = pymongo.MongoClient("")
 
 knowledgeGeneratorDB = myclient['KnowledgeGenerator']
 Users = knowledgeGeneratorDB['user']
