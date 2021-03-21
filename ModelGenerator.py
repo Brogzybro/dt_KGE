@@ -17,6 +17,10 @@ from sklearn.linear_model import SGDClassifier
 from sklearn.linear_model import Ridge
 from sklearn import preprocessing
 
+
+from skl2onnx import convert_sklearn
+from skl2onnx.common.data_types import FloatTensorType
+
 s = sched.scheduler(time.time, time.sleep)
 
 beta_0 = -15.139611
@@ -47,10 +51,10 @@ def train_model(df):
     sb.kdeplot(df['age'])
     sb.swarmplot(data=df)
     plt.show()
-    #model.fit(X.values, Y.values)
+    model.fit(X.values, Y.values)
     print("\n model Train Iteration")
-    #print(model.intercept_)
-    #print(model.coef_)
+    print(model.intercept_)
+    print(model.coef_)
 
 
 def tune_model(df):
@@ -116,6 +120,13 @@ def load_model(filename):
     return model
 
 
+def save_model_as_onnx(model):
+    initial_type = [("sys", FloatTensorType(None, 4))]
+    onx = convert_sklearn(model, initial_types=initial_type)
+    with open("model_onnx.onnx", "wb") as f:
+        f.write(onx.SerialzeToString())
+
+
 def get_all_systolic_samples():
     samples = DataBaseHandler.get_samples(type="systolicBloodPressure")
     new_df = pd.DataFrame()
@@ -124,7 +135,7 @@ def get_all_systolic_samples():
     return new_df
 
 
-model = SGDClassifier()
+model = LinearRegression()
 
 print("df Before: ")
 print(df)
@@ -134,6 +145,7 @@ train_model(get_all_systolic_samples())
 while True:
     time.sleep(20)
     send_api_request()
+    save_model_as_onnx(model)
 
 
 
