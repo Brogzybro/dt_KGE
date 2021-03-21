@@ -10,7 +10,7 @@ class Model(Resource):
         return send_file("model.pkl", attachment_filename="Model. Version: 0.1")
 
 
-api.add_resource(Model, "/Model")
+api.add_resource(Model, "/model")
 
 if __name__ == "__main__":
     app.run()
