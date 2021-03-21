@@ -137,6 +137,14 @@ def get_all_systolic_samples():
 
 model = LinearRegression()
 
+model.intercept_ = beta_0
+model.coef_ = dataFrame
+
+print(model.predict([[22, 128, 80]]))
+print("THIS ^^")
+
+save_model(model)
+
 print("df Before: ")
 print(df)
 count = 0
