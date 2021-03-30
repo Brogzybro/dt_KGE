@@ -1,5 +1,5 @@
 import sched, time
-
+import csv
 from sklearn.preprocessing import MinMaxScaler
 import pickle
 import DataBaseHandler
@@ -121,7 +121,7 @@ def load_model(filename):
 
 
 def save_model_as_onnx(model):
-    initial_type = [("sys", FloatTensorType(None, 4))]
+    initial_type = [("float_input", FloatTensorType([1, 4]))]
     onx = convert_sklearn(model, initial_types=initial_type)
     with open("model_onnx.onnx", "wb") as f:
         f.write(onx.SerialzeToString())
@@ -140,6 +140,7 @@ model = LinearRegression()
 model.intercept_ = beta_0
 model.coef_ = dataFrame
 
+print("THIS --")
 print(model.predict([[22, 128, 80]]))
 print("THIS ^^")
 
@@ -147,10 +148,17 @@ save_model(model)
 
 print("df Before: ")
 print(df)
+
+with open("sample.csv", newline='') as f:
+    reader = csv.reader(f)
+    X_train = list(reader)
+print(X_train)
+print(type(X_train))
+
 count = 0
 train_model(get_all_systolic_samples())
 
-while True:
+while False:
     time.sleep(20)
     send_api_request()
     save_model_as_onnx(model)

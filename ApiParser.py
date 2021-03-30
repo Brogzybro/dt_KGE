@@ -15,6 +15,7 @@ def get_data():
         data = requests.get(url,
                             params={'certificateKey' : "60197f7f8447756484fe1d56"})
         jsonArray = data.json()
+        print(jsonArray)
         for object in jsonArray:
             if 'userId' in object:
                 print(object['userId'])
