@@ -1,3 +1,7 @@
+sklearn
+skl2onnx
+numpy
+onnxruntime
 asgiref==3.2.3
 dj-database-url==0.5.0
 Django==2.1.7

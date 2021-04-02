@@ -7,6 +7,7 @@ import pickle
 import numpy as np
 import DataBaseHandler
 import ApiParser
+import logging
 
 
 def save_as_onnx(model_to_save, filename):
@@ -47,14 +48,14 @@ def train_model(model, x_train, y_train):
 
 
 def tune_model(model, x_tune, y_tune):
-    model.patial_fit()
+    model.patial_fit(x_tune, y_tune)
 
 
-def send_api_request():
-    print("Checking DT-API for data.")
+def get_new_systolic_samples_from_API():
+    logging.info("Checking DT-API for data.")
     new_samples = ApiParser.get_data()
     if len(new_samples) > 0:
-        print("New samples found.")
+        logging.info("New samples found.")
         sys_samples = []
         for s in new_samples:
             if s['type'] == "systolicBloodPressure":
@@ -63,37 +64,19 @@ def send_api_request():
         print(sys_samples)
         return sys_samples
     else:
-        print("No new samples found.")
-
-
-my_model = LinearRegression()
-
-#systolics = DataBaseHandler.get_samples(type="systolicBloodPressure")
-#X, Y = get_samples_to_nparray(systolics)
-
-print("-- DATA FROM DB --")
-#print(X)
-#print(Y)
-
-#train_model(my_model, X, Y)
+        logging.info("No new samples found.")
+        return None
 
 
 
-print("Trained")
-#print(my_model.coef_)
-#print(my_model.predict([[130, 83]]))
+logging.info("filip model predict: ")
+
 
 model_filip = LinearRegression()
 
 model_filip.intercept_ = -15.139611
 model_filip.coef_ = np.array([[0.048337, 0.055844, 0.060932]])
 
-print("filip model predict: ")
-print(model_filip.predict([[24, 130, 83]]))
-
-#save_as_onnx(my_model, "myModel.onnx")
-#save_as_onnx(model_filip, "model.onnx")
-save_model_as_pickle(model_filip, "model.pkl")
 
 sess = rt.InferenceSession("model.onnx")
 input_name = sess.get_inputs()[0].name

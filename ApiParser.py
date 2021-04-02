@@ -1,9 +1,14 @@
 import DataBaseHandler
 import urllib.request
-import traceback
-import json
 import requests
-url = "http://localhost:3000/certificate/data/"
+import logging
+import os
+from dotenv import load_dotenv
+
+
+load_dotenv()
+
+url = os.environ.get("DT_BACK_URI")
 req = urllib.request.Request(url)
 
 counter = 0
@@ -15,10 +20,10 @@ def get_data():
         data = requests.get(url,
                             params={'certificateKey' : "60197f7f8447756484fe1d56"})
         jsonArray = data.json()
-        print(jsonArray)
+        logging.info(jsonArray)
         for object in jsonArray:
             if 'userId' in object:
-                print(object['userId'])
+                logging.info(object['userId'])
 
                 if DataBaseHandler.is_user_new(object):
                     DataBaseHandler.store_user(object)
@@ -29,7 +34,7 @@ def get_data():
                     new_data.append(object)
                     DataBaseHandler.store_sample(object)
         return new_data
-    except Exception:
-        traceback.print_exc()
+    except Exception as e:
+        logging.error("Error fetching data from DT-back API, url: %s", url, exc_info=e)
         return new_data
 

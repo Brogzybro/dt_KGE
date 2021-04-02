@@ -1,8 +1,7 @@
-
 import pymongo
 from gridfs import GridFS
-from bson import objectid
 import os
+import logging
 from dotenv import load_dotenv
 
 
@@ -19,8 +18,8 @@ fs = GridFS(knowledgeGeneratorDB)
 
 def store_user(user_obj):
     if is_user_new(user_obj):
-        print("New user:")
-        print(user_obj)
+        logging.info("New user:")
+        logging.info(user_obj)
         Users.insert_one(user_obj)
 
 
@@ -52,7 +51,7 @@ def get_samples(type=""):
     query = {}
     if type != "":
         query = {"type": type}
-    print("query: ", query)
+    logging.info("query: ", query)
     result = Samples.find(query)
 
     return result

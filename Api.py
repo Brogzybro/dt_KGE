@@ -1,4 +1,4 @@
-from flask import Flask, request, send_file
+from flask import Flask, send_file
 from flask_restful import Resource, Api
 
 app = Flask(__name__)
