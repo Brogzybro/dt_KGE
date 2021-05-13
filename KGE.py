@@ -17,6 +17,6 @@ while True:
         ModelHandler.tune_model(model, x_tune, y_tune)
         ModelHandler.save_as_onnx(model, "MyModel.onnx")
         ModelHandler.save_model_as_pickle(model, "MyModel.pkl")
-    time.sleep(60)
+    time.sleep(60*60)  # One hour.
 
 
