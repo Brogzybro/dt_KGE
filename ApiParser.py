@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 url = os.environ.get("DT_BACK_URI")
+certificateKey = os.environ.get("CERTIFICATE_KEY")
 req = urllib.request.Request(url)
 
 counter = 0
@@ -18,7 +19,7 @@ def get_data():
     new_data = []
     try:
         data = requests.get(url,
-                            params={'certificateKey' : "60197f7f8447756484fe1d56"})
+                            params={'certificateKey': certificateKey})
         jsonArray = data.json()
         logging.info(jsonArray)
         for object in jsonArray:

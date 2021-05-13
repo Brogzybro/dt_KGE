@@ -53,7 +53,6 @@ def get_samples(type=""):
         query = {"type": type}
     logging.info("query: ", query)
     result = Samples.find(query)
-
     return result
 
 
